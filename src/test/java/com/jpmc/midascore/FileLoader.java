@@ -11,7 +11,11 @@ public class FileLoader {
         try {
             InputStream inputStream = this.getClass().getResourceAsStream(path);
             String fileText = IOUtils.toString(inputStream, "UTF-8");
-            return fileText.split(System.lineSeparator());
+            // Split on newlines and trim each line
+            return fileText.lines()
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .toArray(String[]::new);
         } catch (Exception e) {
             return null;
         }
